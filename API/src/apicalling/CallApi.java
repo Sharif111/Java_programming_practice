@@ -10,14 +10,19 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.EntityUtils;
 
 /**
@@ -122,6 +127,64 @@ public class CallApi {
         }
     }
 
+    
+    
+     public void photoVerifyWithNidPhoto() {
+       
+       
+        try {
+
+          
+            DefaultHttpClient httpclient = new DefaultHttpClient(new BasicHttpParams());
+
+            // server back-end URL
+            HttpGet httppost = new HttpGet("url");
+       
+            JSONObject jsonObject = new JSONObject();
+            //jsonObject.put("", "");
+
+
+            StringEntity params = new StringEntity(String.valueOf(jsonObject));
+            httppost.setHeader("Authorization", "token");
+         
+           // httppost.setEntity(params);
+
+            HttpResponse response = httpclient.execute(httppost);
+            System.out.println("response = " + response);
+
+            int statusCode = response.getStatusLine().getStatusCode();
+            System.out.println("statusCode = " + statusCode);
+            if (statusCode == 200) {
+
+                HttpEntity responseEntity = response.getEntity();
+                String responseString = EntityUtils.toString(responseEntity, "UTF-8");
+                System.out.println("responseString = " + responseString);
+
+                JSONObject obj = new JSONObject(responseString);
+
+                String message = "";
+                String faceVerificationResult = "";
+
+                if (obj.has("message") && !obj.isNull("message")) {
+                    message = (String) obj.get("message");
+                }
+
+                if (obj.has("data") && !obj.isNull("data")) {
+                 
+
+
+                }
+
+            } 
+                
+
+        } catch (Exception e) {
+           
+            e.printStackTrace();
+        } 
+
+       
+    }
     public static void main(String[] args) throws IOException {
 
         CallApi callApi = new CallApi();
