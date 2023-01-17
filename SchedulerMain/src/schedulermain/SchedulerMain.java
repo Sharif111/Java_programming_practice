@@ -1,6 +1,5 @@
 package schedulermain;
 
-import duplicatearrayfind.CallingJar;
 import java.io.IOException;
 import java.util.Timer;
 
@@ -12,6 +11,7 @@ public class SchedulerMain {
         ScheduledTask st = new ScheduledTask();
         time.schedule(st, 0, 1000);
         //1000*60*1(For 1 min)
+        //1000*60*60*24 (For 24 hour)
 
         //for demo only.
         for (int i = 1; i > 0; i++) {
